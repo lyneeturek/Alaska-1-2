@@ -1,3 +1,13 @@
+%{
+    Steady State Heat Loss Estimation
+
+    Input: Dimensions of the structure, thermal values
+    Output: Maximum heat loss of structure in steady state
+    
+    By Cole Thomson 3/7/19
+    Edited by Daniel Chan 3/9/19
+%}
+
 %[INPUT] Dimensions of structure (ft)
 dims=[20,10,10];
 
@@ -21,4 +31,23 @@ h=roughness(1)+roughness(2)*windspeed+roughness(3)*windspeed^2;
 R_cond=th_metric/(K.*A)*F_s;
 R_conv=1/(h.*A);
 
-q=(T_air-T_inf)./(R_cond+R_conv);
+q_ss = (T_air-T_inf)./(R_cond+R_conv)
+
+
+%% Transient - Heating up a 10x10x20 container full of air from 0C to 18C in 30 minutes
+vol = 56.63; %Volume of the space in m^3
+density = 1.225; %Density of air in kg/m^3
+m = vol * density; 
+c = .718 %kJ/kg*K
+T1 = 0;
+T2 = 18;
+
+E1 = m*c*T1; %in kJ - not correct in an absolute sense because T is not in Kelvin, but good for difference in E
+E2 = m*c*T2; %in kJ
+
+t = .5*60*60; %half an hour in seconds
+
+q_trans = (E2-E1) / t * 1000; %Energy/time = power, *1000 to get units to Watts
+
+%% Total
+q_total = q_ss + q_trans
