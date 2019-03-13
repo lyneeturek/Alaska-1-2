@@ -1,5 +1,5 @@
 %{
-    Steady State Heat Loss Estimation
+    Heat Loss Estimation
 
     Input: Dimensions of the structure, thermal values
     Output: Maximum heat loss of structure in steady state
