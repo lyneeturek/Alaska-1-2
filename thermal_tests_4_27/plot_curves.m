@@ -17,10 +17,17 @@ plot(time,adjusted_long);
 legend('external','internal(short axis)','internal(long axis)');
 
 lb=400;
-hb=455;
-
+hb=455./60;
+time = time./60;
+smoothed_diff = movmean(adjusted_short-adjusted_long, 10);
 figure(2);
-plot(time,adjusted_short-adjusted_long);
+plot(time,smoothed_diff, 'LineWidth', 2);
+ylim([-3 3])
+
+ylabel 'Degrees C'
+xlabel 'Time (Hours)'
+title 'Temperature Difference of Internal Thermocouples vs Time'
+
 
 T_inf = mean(external(400:455));
 T_ss = (mean(long_axis(400:455))+mean(short_axis(400:455)))/2;
